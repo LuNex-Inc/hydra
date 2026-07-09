@@ -586,12 +586,15 @@ async fn get_profile_usage(profile_id: String) -> Result<UsageView, String> {
         .or_else(|| find_string(&body, &["billingPeriodEnd"]));
     let weekly_label = period_label(current_period_type);
     if weekly_percent.is_some() || current_period_type == Some("USAGE_PERIOD_TYPE_WEEKLY") {
+        let percent = weekly_percent
+            .or_else(|| (current_period_type == Some("USAGE_PERIOD_TYPE_WEEKLY")).then_some(0.0))
+            .map(|value| value.clamp(0.0, 100.0));
         return Ok(UsageView {
             profile_id,
             used: None,
             limit: None,
-            percent: weekly_percent.map(|value| value.clamp(0.0, 100.0)),
-            label: weekly_percent
+            percent,
+            label: percent
                 .map(|value| format!("{value:.0}% used"))
                 .unwrap_or_else(|| "Usage available".into()),
             period_label: weekly_label,
