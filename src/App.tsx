@@ -16,7 +16,7 @@ import logo from "./assets/hydra-icon.png";
 import "./App.css";
 
 const APP_NAME = "Hydra";
-const APP_SUBTITLE = "Grok Build CLI Profile Manager";
+const APP_SUBTITLE = "Many Heads. One Command.";
 
 type Profile = {
   id: string;

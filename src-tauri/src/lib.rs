@@ -437,7 +437,7 @@ pub fn run() {
             let menu = Menu::with_items(app, &[&open, &quit])?;
             TrayIconBuilder::new()
                 .icon(app.default_window_icon().cloned().expect("app icon"))
-                .tooltip("Hydra - Grok Build CLI Profile Manager")
+                .tooltip("Hydra - Many Heads. One Command.")
                 .menu(&menu)
                 .on_menu_event(|app, event| match event.id().as_ref() {
                     "open" => {

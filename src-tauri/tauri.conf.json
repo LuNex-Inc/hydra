@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Hydra - Grok Build CLI Profile Manager",
+        "title": "Hydra - Many Heads. One Command.",
         "width": 920,
         "height": 720,
         "minWidth": 720,

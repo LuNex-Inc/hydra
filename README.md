@@ -1,6 +1,6 @@
 # Hydra
 
-Grok Build CLI Profile Manager.
+Many Heads. One Command.
 
 Hydra is an independent, unofficial Windows desktop profile manager for the
 Grok CLI. It helps developers select among personal, work, client, or testing
