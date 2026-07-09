@@ -17,7 +17,8 @@ profiles that the user owns or is authorized to use.
 ## Required behaviors
 
 1. Import valid JSON from the current auth file or a user-selected file.
-2. Store imported profiles under `%USERPROFILE%\.grok-hydra`.
+2. Store imported profiles under `%USERPROFILE%\.hydra` (migrated automatically
+   from the earlier `%USERPROFILE%\.grok-hydra` location on first run).
 3. Identify profiles by normalized content and available email metadata.
 4. Switch atomically, retain a local backup, and verify the write.
 5. Launch official login and detect a changed auth-file fingerprint.

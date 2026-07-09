@@ -16,7 +16,7 @@ profiles they own or are authorized to use.
 - Per-profile usage display with isolated error states
 - Clear `Re-login` status for expired credentials
 - Native Windows dashboard and system tray
-- Local-only credential storage under `~/.grok-hydra`
+- Local-only credential storage under `~/.hydra`
 - Optimized multi-resolution Windows icon
 
 ## Verify a switch

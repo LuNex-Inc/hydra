@@ -46,6 +46,12 @@ function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error);
 }
 
+function formatCredits(value: number) {
+  return new Intl.NumberFormat(undefined, {
+    maximumFractionDigits: value < 10 ? 2 : 0,
+  }).format(value);
+}
+
 function App() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [usage, setUsage] = useState<Record<string, Usage>>({});
@@ -287,7 +293,11 @@ function App() {
                         />
                       </div>
                       <span className={stats?.error ? "usage-error" : ""}>
-                        {stats?.error ? "Re-login" : stats?.label ?? "Loading..."}
+                        {stats?.error
+                          ? "Re-login"
+                          : stats?.used != null && stats?.limit != null
+                            ? `${stats.label} · ${formatCredits(stats.used)} / ${formatCredits(stats.limit)} this month`
+                            : stats?.label ?? "Loading..."}
                       </span>
                     </div>
                   </div>

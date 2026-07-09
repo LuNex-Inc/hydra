@@ -63,7 +63,15 @@ struct UsageView {
 
 fn config_dir() -> Result<PathBuf, String> {
     let home = dirs::home_dir().ok_or("Unable to locate the home directory")?;
-    Ok(home.join(".grok-hydra"))
+    let dir = home.join(".hydra");
+    // One-time migration: earlier builds stored profiles under the trademark-bearing
+    // ~/.grok-hydra name. Move it to ~/.hydra on first run under the new build so
+    // existing saved profiles survive the rename instead of silently disappearing.
+    let legacy = home.join(".grok-hydra");
+    if !dir.exists() && legacy.exists() {
+        let _ = fs::rename(&legacy, &dir);
+    }
+    Ok(dir)
 }
 
 fn store_path() -> Result<PathBuf, String> {
@@ -419,7 +427,7 @@ pub fn run() {
         use std::os::windows::ffi::OsStrExt;
         use windows_sys::Win32::UI::Shell::SetCurrentProcessExplicitAppUserModelID;
 
-        let app_id: Vec<u16> = std::ffi::OsStr::new("com.charles.grok-hydra.desktop")
+        let app_id: Vec<u16> = std::ffi::OsStr::new("com.charles.hydra.desktop")
             .encode_wide()
             .chain(std::iter::once(0))
             .collect();
