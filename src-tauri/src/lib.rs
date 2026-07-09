@@ -277,8 +277,37 @@ fn import_profile_file(path: String, name: Option<String>) -> Result<ProfileView
     upsert_auth(raw, name)
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct SwitchOutcome {
+    grok_running: bool,
+}
+
+// A running Grok CLI session keeps its account in memory; switching auth.json
+// only affects sessions started afterwards. Verified live: with a session open
+// on account A, a Hydra switch to B left the open session on A while a freshly
+// started process correctly picked up B. Detecting this lets the UI warn
+// instead of letting the switch look broken.
+fn grok_cli_running() -> bool {
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+        Command::new("tasklist")
+            .args(["/FI", "IMAGENAME eq grok.exe", "/NH"])
+            .creation_flags(CREATE_NO_WINDOW)
+            .output()
+            .map(|output| String::from_utf8_lossy(&output.stdout).contains("grok.exe"))
+            .unwrap_or(false)
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        false
+    }
+}
+
 #[tauri::command]
-fn switch_profile(profile_id: String) -> Result<(), String> {
+fn switch_profile(profile_id: String) -> Result<SwitchOutcome, String> {
     let mut store = load_store()?;
     let profile = store
         .profiles
@@ -293,7 +322,10 @@ fn switch_profile(profile_id: String) -> Result<(), String> {
         return Err("Switch verification failed; the live auth file does not match".into());
     }
     profile.last_used_at = Some(Utc::now());
-    save_store(&store)
+    save_store(&store)?;
+    Ok(SwitchOutcome {
+        grok_running: grok_cli_running(),
+    })
 }
 
 #[tauri::command]

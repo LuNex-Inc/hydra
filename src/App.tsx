@@ -100,9 +100,15 @@ function App() {
   async function switchTo(profile: Profile) {
     setBusy(profile.id);
     try {
-      await invoke("switch_profile", { profileId: profile.id });
+      const outcome = await invoke<{ grokRunning: boolean }>("switch_profile", {
+        profileId: profile.id,
+      });
       await load();
-      setMessage(`Active profile: ${profile.name}`);
+      setMessage(
+        outcome.grokRunning
+          ? `Active profile: ${profile.name} — a Grok session is still running and keeps the previous account until you restart it`
+          : `Active profile: ${profile.name}`,
+      );
     } catch (error) {
       setMessage(errorMessage(error));
     } finally {
