@@ -357,7 +357,7 @@ function App() {
                             {stats?.error
                               ? "Re-login"
                               : exhausted
-                                ? "Monthly usage exhausted"
+                                ? "Weekly usage exhausted"
                                 : stats?.percent != null && stats?.used != null && stats?.limit != null
                                   ? `${stats.label} · ${formatCredits(stats.used)} / ${formatCredits(stats.limit)} this month`
                                   : stats?.label ?? "Loading..."}
