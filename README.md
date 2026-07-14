@@ -37,7 +37,7 @@ The account shown by Grok should match the active profile in Hydra.
 ## Install (Windows)
 
 Download the latest release from
-[GitHub Releases](https://github.com/Charles-3Ready/hydra/releases):
+[GitHub Releases](https://github.com/LuNex-Inc/hydra/releases):
 
 - `Hydra_1.1.0_x64-setup.exe` — NSIS installer (recommended)
 - `Hydra_1.1.0_x64_en-US.msi` — MSI
@@ -90,4 +90,4 @@ Or open [ko-fi.com/3readyproto](https://ko-fi.com/3readyproto). Optional.
 
 ---
 
-**Charles-3Ready** · [Ko-fi](https://ko-fi.com/3readyproto)
+**LuNex-Inc** · [Ko-fi](https://ko-fi.com/3readyproto)
